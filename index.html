@@ -1,0 +1,429 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เรียนรู้เรื่องเวลา ป.4 | ครูสัน</title>
+<style>
+*{box-sizing:border-box}
+:root{--primary:#4263eb;--secondary:#edf2ff;--ink:#26324b;--muted:#718096;--green:#16a36a;--red:#e05252;--bg:#f4f7fc}
+body{margin:0;background:var(--bg);font-family:Tahoma,"Noto Sans Thai",sans-serif;color:var(--ink);line-height:1.65}
+button,input{font:inherit}
+button{cursor:pointer;border:0;border-radius:12px;padding:12px 18px;font-weight:bold}
+header{background:linear-gradient(120deg,#3458d4,#748cf5);color:white;padding:20px 16px 25px}
+.head{max-width:850px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand h1{font-size:clamp(20px,4vw,29px);margin:0}
+.brand p{margin:3px 0 0;font-size:13px;opacity:.9}
+.teacher-btn{background:white;color:#3458d4;font-size:13px;white-space:nowrap}
+main{max-width:760px;margin:22px auto;padding:0 14px 40px}
+.card{background:white;border-radius:18px;padding:22px;margin-bottom:16px;box-shadow:0 4px 18px #26324b0c}
+h2{font-size:21px;margin:0 0 10px}
+h3{font-size:17px;margin:0 0 12px}
+.muted{color:var(--muted);font-size:14px}
+.info{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.tag{background:var(--secondary);color:#3458d4;padding:5px 12px;border-radius:20px;font-size:13px}
+label{display:block;font-weight:bold;margin:15px 0 7px}
+input{width:100%;padding:13px;border:1px solid #d8dfec;border-radius:11px;outline:none}
+input:focus{border-color:var(--primary)}
+.primary{background:var(--primary);color:white;width:100%;margin-top:16px}
+.primary:disabled{opacity:.5;cursor:not-allowed}
+.secondary{background:#edf2ff;color:#3458d4}
+.progress{height:9px;background:#e8edf6;border-radius:20px;overflow:hidden;margin:12px 0}
+.progress>div{height:100%;background:#5477ef;transition:width .3s}
+.topline{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted)}
+.question{font-size:19px;font-weight:bold;margin:18px 0}
+.context{background:#fff8e9;padding:12px 15px;border-radius:12px;color:#75531c;font-size:14px;margin:12px 0}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.choice{background:#f5f7fc;border:2px solid #e8edf6;text-align:left;padding:13px;color:var(--ink);min-height:55px}
+.choice.selected{border-color:var(--primary);background:#edf2ff;color:#3458d4}
+.choice.correct{border-color:var(--green);background:#e9f8f0;color:#087a4a}
+.choice.wrong{border-color:var(--red);background:#fff0f0;color:#bd3535}
+.feedback{padding:15px;border-radius:12px;margin-top:16px;background:#f2f6ff;font-size:14px}
+.feedback.good{background:#e9f8f0;color:#087a4a}
+.feedback.bad{background:#fff0f0;color:#a52d2d}
+.actions{display:flex;gap:10px;margin-top:17px}
+.actions button{flex:1}
+.clock{width:min(210px,65vw);height:auto;display:block;margin:12px auto}
+.hidden{display:none!important}
+.score{font-size:48px;font-weight:bold;color:var(--primary);text-align:center}
+.center{text-align:center}
+.review-item{padding:13px 0;border-bottom:1px solid #edf0f5}
+.review-item:last-child{border:0}
+.teacher-panel{border:2px solid #c9d5ff}
+.small-btn{padding:8px 12px;font-size:13px}
+footer{text-align:center;color:#8290a7;font-size:12px;padding:12px}
+.modal-bg{position:fixed;inset:0;background:#15213b88;z-index:10;display:flex;align-items:center;justify-content:center;padding:12px}
+.modal{background:white;border-radius:18px;padding:22px;width:min(600px,100%);max-height:90vh;overflow:auto}
+.teacher-question{background:#f5f7fc;padding:14px;border-radius:12px;margin:12px 0}
+@media(max-width:480px){.card{padding:17px}.choices{grid-template-columns:1fr}.head{align-items:flex-start}.teacher-btn{padding:9px}.actions{flex-direction:column}}
+</style>
+</head>
+<body>
+<header>
+ <div class="head">
+  <div class="brand">
+   <h1>⏰ สนุกกับการเรียนรู้เรื่องเวลา</h1>
+   <p>คณิตศาสตร์พื้นฐาน ชั้นประถมศึกษาปีที่ 4</p>
+  </div>
+  <button class="teacher-btn" id="teacherBtn">⚙ โหมดครู</button>
+ </div>
+</header>
+<main>
+ <section id="home" class="card">
+  <h2>ยินดีต้อนรับนักเรียนคนเก่ง! 👋</h2>
+  <p>มาฝึกอ่านเวลาและทำความเข้าใจเรื่องเวลากันเถอะ ผ่านสถานการณ์สนุก ๆ ในโรงเรียน</p>
+  <div class="info">
+   <span class="tag">📚 คณิตศาสตร์ ป.4</span>
+   <span class="tag">📝 15 ข้อ</span>
+   <span class="tag">⏱ 40 นาที</span>
+   <span class="tag">⭐ ระดับพื้นฐาน</span>
+  </div>
+  <h3>จุดประสงค์การเรียนรู้</h3>
+  <p class="muted">นักเรียนสามารถอ่าน บอก และเข้าใจเวลาในรูปแบบต่าง ๆ ได้อย่างถูกต้อง</p>
+  <label for="studentNo">กรุณากรอกเลขที่ของนักเรียน (1–5)</label>
+  <input id="studentNo" type="number" min="1" max="5" placeholder="กรอกเลขที่ เช่น 1">
+  <p id="homeError" style="color:#d44;font-size:13px" aria-live="polite"></p>
+  <button class="primary" id="startBtn">🚀 เริ่มทำกิจกรรม</button>
+ </section>
+
+ <section id="quiz" class="card hidden">
+  <div class="topline">
+   <span id="studentLabel">เลขที่ -</span>
+   <span id="questionCount">ข้อ 1 / 15</span>
+  </div>
+  <div class="progress"><div id="progressBar" style="width:0%"></div></div>
+  <div class="topline">
+   <span>ความคืบหน้า</span>
+   <span id="progressText">0%</span>
+  </div>
+  <div class="info">
+   <span class="tag" id="topicTag">อ่านเวลา</span>
+   <span class="tag">เลือกคำตอบที่ถูกต้องที่สุด</span>
+  </div>
+  <div id="context" class="context"></div>
+  <div id="visual"></div>
+  <div class="question" id="questionText"></div>
+  <div id="choices" class="choices"></div>
+  <div id="feedback" class="feedback hidden" aria-live="polite"></div>
+  <div class="actions">
+   <button class="primary" id="checkBtn" disabled>ตรวจ / ส่งคำตอบ</button>
+   <button class="secondary hidden" id="nextBtn">ข้อต่อไป →</button>
+  </div>
+ </section>
+
+ <section id="result" class="card hidden">
+  <div class="center">
+   <div style="font-size:55px">🏆</div>
+   <h2>เก่งมาก! ทำกิจกรรมครบแล้ว</h2>
+   <p class="muted" id="resultStudent"></p>
+   <div class="score" id="score">0/15</div>
+   <h3 id="scoreMessage"></h3>
+   <p class="muted" id="scorePercent"></p>
+  </div>
+  <div class="progress"><div id="resultBar"></div></div>
+  <div class="info" style="justify-content:center">
+   <span class="tag" id="correctCount"></span>
+   <span class="tag" id="wrongCount"></span>
+  </div>
+  <h3>📋 สรุปผลการเรียนรู้และเฉลย</h3>
+  <div id="review"></div>
+  <button class="primary" id="retryBtn">🔄 ลองทำอีกครั้ง</button>
+  <button class="secondary" id="homeBtn" style="width:100%;margin-top:9px">กลับหน้าหลัก</button>
+ </section>
+
+ <section id="teacherPanel" class="card teacher-panel hidden">
+  <h2>👩‍🏫 แผงตรวจสอบสำหรับครู</h2>
+  <p class="muted">ตรวจสอบโจทย์ เฉลย และวิธีทำได้ครบทั้ง 15 ข้อ โดยเลือกเลขที่ 1–5</p>
+  <label for="teacherSeed">เลือกเลขที่นักเรียน</label>
+  <select id="teacherSeed" style="width:100%;padding:12px;border:1px solid #d8dfec;border-radius:10px">
+   <option value="1">เลขที่ 1</option><option value="2">เลขที่ 2</option>
+   <option value="3">เลขที่ 3</option><option value="4">เลขที่ 4</option>
+   <option value="5">เลขที่ 5</option>
+  </select>
+  <div class="info">
+   <span class="tag" id="teacherTotal">15 ข้อ</span>
+   <span class="tag" id="duplicateRate">กำลังตรวจสอบ...</span>
+  </div>
+  <div id="teacherQuestions"></div>
+  <div class="feedback">
+   <b>หมายเหตุสำหรับครู:</b><br>
+   เว็บแอปนี้ทำงานแบบ Client-Side ข้อมูลโจทย์และเฉลยถูกสร้างและประมวลผลในเบราว์เซอร์ จึงไม่สามารถซ่อนเฉลยจากผู้ที่เข้าถึงโค้ดได้ 100% โปรดตรวจสอบโจทย์และเฉลยก่อนนำไปใช้จริง
+  </div>
+  <button class="secondary" id="closeTeacher" style="width:100%;margin-top:12px">ปิดแผงครู</button>
+ </section>
+</main>
+<footer>
+ ผู้สร้าง: ครูสัน | โรงเรียนบ้านกะริคี<br>
+ กลุ่มสาระการเรียนรู้คณิตศาสตร์ | กิจกรรมฝึกทักษะเรื่องเวลา
+</footer>
+
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const TOTAL=15;
+let seed=1,questions=[],index=0,answers=[],submitted=false;
+
+function mulberry32(a){
+ return function(){
+  let t=a+=0x6D2B79F5;
+  t=Math.imul(t^t>>>15,t|1);
+  t^=t+Math.imul(t^t>>>7,t|61);
+  return ((t^t>>>14)>>>0)/4294967296;
+ };
+}
+function rngFor(s,q){return mulberry32((s*10007+q*7919+0x5EED)>>>0)}
+function int(r,min,max){return Math.floor(r()*(max-min+1))+min}
+function shuffle(a,r){
+ let b=[...a];
+ for(let i=b.length-1;i>0;i--){let j=Math.floor(r()*(i+1));[b[i],b[j]]=[b[j],b[i]]}
+ return b;
+}
+function fmt(h,m,period){
+ return `${String(h).padStart(2,"0")}.${String(m).padStart(2,"0")} น.`;
+}
+function clockSVG(h,m){
+ const minute=m*6-90,hour=(h%12)*30+m*.5-90;
+ const point=(angle,len)=>[100+len*Math.cos(angle*Math.PI/180),100+len*Math.sin(angle*Math.PI/180)];
+ const [mx,my]=point(minute,69),[hx,hy]=point(hour,48);
+ let ticks="";
+ for(let i=0;i<12;i++){
+  const [x1,y1]=point(i*30-90,84),[x2,y2]=point(i*30-90,91);
+  const [tx,ty]=point(i*30-90,70);
+  ticks+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#64748b" stroke-width="2"/><text x="${tx}" y="${ty+4}" text-anchor="middle" font-size="11" fill="#26324b">${i===0?12:i}</text>`;
+ }
+ return `<svg class="clock" viewBox="0 0 200 200" role="img" aria-label="รูปนาฬิกาเข็ม">
+ <circle cx="100" cy="100" r="94" fill="white" stroke="#4263eb" stroke-width="4"/>
+ ${ticks}
+ <line x1="100" y1="100" x2="${hx}" y2="${hy}" stroke="#4263eb" stroke-width="6" stroke-linecap="round"/>
+ <line x1="100" y1="100" x2="${mx}" y2="${my}" stroke="#ef6565" stroke-width="3" stroke-linecap="round"/>
+ <circle cx="100" cy="100" r="5" fill="#26324b"/>
+ </svg>`;
+}
+function makeQuestion(seedNo,i){
+ const r=rngFor(seedNo,i+1);
+ const h=int(r,1,12);
+ const minute=[0,15,30,45][int(r,0,3)];
+ const time=fmt(h,minute);
+ const activities=[
+  "กิจกรรมกีฬาสีของโรงเรียน",
+  "การเข้าแถวเคารพธงชาติ",
+  "การเรียนวิชาคณิตศาสตร์",
+  "กิจกรรมค่ายอาสา",
+  "การเปิดร้านค้าสหกรณ์",
+  "เวลาพักรับประทานอาหาร",
+  "กิจกรรมอ่านหนังสือในห้องสมุด",
+  "การแข่งขันกีฬาของนักเรียน",
+  "การทำความสะอาดโรงเรียน",
+  "กิจกรรมหน้าเสาธง",
+  "การประชุมสภานักเรียน",
+  "การเดินทางไปทัศนศึกษา",
+  "การฝึกซ้อมดนตรี",
+  "กิจกรรมชมรม",
+  "การเข้าเรียนภาคบ่าย"
+ ];
+ const activity=activities[i];
+ const questions=[];
+ let correct="",explain="",visual="",question="",topic="";
+ const add=(q,a,wrong,why,vis="",tag="อ่านเวลา")=>{
+  questions.push({q,a,wrong,why,vis,tag});
+ };
+ // Fifteen different learning situations
+ if(i%5===0){
+  question=`นาฬิกาแสดงเวลาใด?`;
+  visual=clockSVG(h,minute);
+  correct=time;
+  explain=`เข็มยาวชี้ที่เลข ${minute/5} แสดงนาที ${minute} นาที ส่วนเข็มสั้นชี้ที่เลข ${h} แสดงชั่วโมง จึงเป็นเวลา ${time}`;
+  add(question,correct,[
+   fmt(h,minute===0?15:(minute+30)%60),
+   fmt(h===12?1:h+1,minute),
+   fmt(h,minute===45?30:minute+15)
+  ],explain,visual);
+ }else if(i%5===1){
+  question=`${activity} เริ่มเวลา ${time} ข้อใดเขียนเวลาเป็นคำอ่านได้ถูกต้อง?`;
+  correct=`${h} นาฬิกา ${minute} นาที`;
+  explain=`เวลา ${time} อ่านว่า ${h} นาฬิกา ${minute} นาที`;
+  add(question,correct,[
+   `${minute} นาฬิกา ${h} นาที`,
+   `${h} นาฬิกา ${minute+5} นาที`,
+   `${h+1} นาฬิกา ${minute} นาที`
+  ],explain);
+ }else if(i%5===2){
+  const next=(minute+15)%60;
+  const nh=(h+(minute+15>=60?1:0)-1+12)%12+1;
+  question=`${activity} เริ่มเวลา ${time} อีก 15 นาทีจะเป็นเวลาใด?`;
+  correct=fmt(nh,next);
+  explain=`เพิ่ม 15 นาทีจาก ${minute} นาที จะได้ ${next} นาที ${next===0?"และเพิ่มชั่วโมงอีก 1 ชั่วโมง":""} จึงเป็น ${correct}`;
+  add(question,correct,[
+   fmt(h,(minute+30)%60),
+   fmt(h,minute),
+   fmt(nh,(minute+45)%60)
+  ],explain);
+ }else if(i%5===3){
+  const prev=(minute+45)%60;
+  const ph=(h-(minute===0?1:0)-1+12)%12+1;
+  question=`${activity} สิ้นสุดเวลา ${time} ถ้าย้อนกลับไป 15 นาที จะเป็นเวลาใด?`;
+  correct=fmt(ph,prev);
+  explain=`นำ 15 นาทีออกจาก ${time} จึงได้เวลา ${correct}`;
+  add(question,correct,[
+   fmt(h,(minute+30)%60),
+   fmt(h,minute),
+   fmt(ph,(prev+15)%60)
+  ],explain);
+ }else{
+  question=`ข้อใดกล่าวถูกต้องเกี่ยวกับเวลา ${time} ในกิจกรรม${activity}?`;
+  correct=minute===0?"ตรงกับเวลาเต็มชั่วโมง":minute===15?"ผ่านไป 15 นาที":minute===30?"ผ่านไปครึ่งชั่วโมง":"ผ่านไป 45 นาที";
+  explain=`เวลา ${time} มี ${minute} นาที จึงอ่านได้ว่า ${correct}`;
+  add(question,correct,[
+   minute===0?"ผ่านไป 30 นาที":"ตรงกับเวลาเต็มชั่วโมง",
+   minute===15?"ผ่านไป 45 นาที":"ผ่านไป 15 นาที",
+   minute===30?"ผ่านไป 15 นาที":"ผ่านไปครึ่งชั่วโมง"
+  ],explain);
+ }
+ const data=questions[0];
+ const options=shuffle([data.a,...data.wrong],r);
+ return {id:i+1,q:data.q,context:`📍 สถานการณ์: ${activity}`,visual:data.vis,tag:data.tag,options,answer:data.a,why:data.why};
+}
+function generate(s){
+ return Array.from({length:TOTAL},(_,i)=>makeQuestion(s,i));
+}
+function escapeHTML(s){
+ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function start(){
+ const n=Number($("studentNo").value);
+ if(!Number.isInteger(n)||n<1||n>5){
+  $("homeError").textContent="กรุณากรอกเลขที่ตั้งแต่ 1 ถึง 5";
+  $("studentNo").focus();return;
+ }
+ $("homeError").textContent="";
+ seed=n;questions=generate(seed);answers=Array(TOTAL).fill(null);index=0;submitted=false;
+ $("home").classList.add("hidden");
+ $("result").classList.add("hidden");
+ $("quiz").classList.remove("hidden");
+ $("studentLabel").textContent="นักเรียนเลขที่ "+seed;
+ renderQuestion();
+}
+function renderQuestion(){
+ const q=questions[index];
+ $("questionCount").textContent=`ข้อ ${index+1} / ${TOTAL}`;
+ $("progressBar").style.width=(index/TOTAL*100)+"%";
+ $("progressText").textContent=Math.round(index/TOTAL*100)+"%";
+ $("context").textContent=q.context;
+ $("visual").innerHTML=q.visual||"";
+ $("questionText").textContent=q.q;
+ $("topicTag").textContent=q.tag;
+ $("feedback").classList.add("hidden");
+ $("nextBtn").classList.add("hidden");
+ $("checkBtn").classList.remove("hidden");
+ $("checkBtn").disabled=true;
+ $("choices").replaceChildren();
+ q.options.forEach((opt,i)=>{
+  const b=document.createElement("button");
+  b.className="choice";
+  b.textContent=["ก. ","ข. ","ค. ","ง. "][i]+opt;
+  b.addEventListener("click",()=>{
+   if(answers[index]!==null)return;
+   answers[index]=opt;
+   [...$("choices").children].forEach(x=>x.classList.remove("selected"));
+   b.classList.add("selected");
+   $("checkBtn").disabled=false;
+  });
+  $("choices").appendChild(b);
+ });
+}
+function check(){
+ const selected=answers[index];
+ if(selected===null)return;
+ const q=questions[index];
+ const correct=selected===q.answer;
+ [...$("choices").children].forEach((b,i)=>{
+  const opt=q.options[i];
+  b.disabled=true;
+  if(opt===q.answer)b.classList.add("correct");
+  else if(opt===selected)b.classList.add("wrong");
+ });
+ const fb=$("feedback");
+ fb.className="feedback "+(correct?"good":"bad");
+ fb.textContent=(correct?"✓ ถูกต้อง เก่งมาก! ":"✗ ยังไม่ถูกต้อง ")+`เฉลย: ${q.answer} — ${q.why}`;
+ fb.classList.remove("hidden");
+ $("checkBtn").classList.add("hidden");
+ $("nextBtn").classList.remove("hidden");
+ $("nextBtn").textContent=index===TOTAL-1?"ดูผลคะแนน 🏆":"ข้อต่อไป →";
+ $("progressBar").style.width=((index+1)/TOTAL*100)+"%";
+ $("progressText").textContent=Math.round((index+1)/TOTAL*100)+"%";
+ submitted=true;
+}
+function next(){
+ if(answers[index]===null)return;
+ if(index<TOTAL-1){index++;renderQuestion()}
+ else showResult();
+}
+function showResult(){
+ $("quiz").classList.add("hidden");
+ $("result").classList.remove("hidden");
+ const score=questions.reduce((n,q,i)=>n+(answers[i]===q.answer?1:0),0);
+ const pct=Math.round(score/TOTAL*100);
+ $("score").textContent=`${score} / ${TOTAL}`;
+ $("resultStudent").textContent=`ผลการทำกิจกรรมของนักเรียนเลขที่ ${seed}`;
+ $("scorePercent").textContent=`คิดเป็น ${pct}%`;
+ $("correctCount").textContent=`✓ ตอบถูก ${score} ข้อ`;
+ $("wrongCount").textContent=`✗ ตอบผิด ${TOTAL-score} ข้อ`;
+ $("resultBar").style.width=pct+"%";
+ $("scoreMessage").textContent=score>=13?"ยอดเยี่ยมมาก! 🌟":score>=10?"ทำได้ดีมาก! 👏":score>=7?"พยายามได้ดี ฝึกต่ออีกนิดนะ 💪":"ลองทบทวนและฝึกใหม่อีกครั้งนะ ❤️";
+ $("review").replaceChildren();
+ questions.forEach((q,i)=>{
+  const div=document.createElement("div");
+  div.className="review-item";
+  const title=document.createElement("b");
+  title.textContent=`ข้อ ${i+1} ${answers[i]===q.answer?"✓ ถูก":"✗ ผิด"}`;
+  const p=document.createElement("p");p.textContent=q.q;
+  const a=document.createElement("p");a.textContent="เฉลย: "+q.answer;
+  const e=document.createElement("p");e.className="muted";e.textContent=q.why;
+  div.append(title,p,a,e);$("review").appendChild(div);
+ });
+}
+function teacherRender(){
+ const n=Number($("teacherSeed").value);
+ const qs=generate(n);
+ const container=$("teacherQuestions");container.replaceChildren();
+ qs.forEach(q=>{
+  const div=document.createElement("div");div.className="teacher-question";
+  const title=document.createElement("b");title.textContent=`ข้อ ${q.id}`;
+  const p=document.createElement("p");p.textContent=q.context;
+  const question=document.createElement("p");question.textContent=q.q;
+  const options=document.createElement("p");
+  options.textContent=q.options.map((x,i)=>["ก","ข","ค","ง"][i]+". "+x).join(" | ");
+  const ans=document.createElement("p");ans.style.color="#087a4a";ans.style.fontWeight="bold";ans.textContent="เฉลย: "+q.answer;
+  const why=document.createElement("p");why.textContent="วิธีคิด: "+q.why;
+  div.append(title,p);
+  if(q.visual){const v=document.createElement("div");v.innerHTML=q.visual;div.append(v)}
+  div.append(question,options,ans,why);
+  container.appendChild(div);
+ });
+ // Compare question text across all five seeds
+ const signatures=[];
+ for(let s=1;s<=5;s++){
+  generate(s).forEach(q=>signatures.push(q.q+"|"+q.answer));
+ }
+ const unique=new Set(signatures);
+ const duplicate=signatures.length-unique.size;
+ $("duplicateRate").textContent=`อัตราข้อซ้ำข้ามชุด ${Math.round(duplicate/signatures.length*100)}%`;
+ $("teacherTotal").textContent=`เลขที่ ${n} | 15 ข้อ`;
+}
+$("startBtn").addEventListener("click",start);
+$("studentNo").addEventListener("keydown",e=>{if(e.key==="Enter")start()});
+$("checkBtn").addEventListener("click",check);
+$("nextBtn").addEventListener("click",next);
+$("retryBtn").addEventListener("click",start);
+$("homeBtn").addEventListener("click",()=>{
+ $("result").classList.add("hidden");$("home").classList.remove("hidden");
+});
+$("teacherBtn").addEventListener("click",()=>{
+ $("teacherPanel").classList.toggle("hidden");teacherRender();
+});
+$("teacherSeed").addEventListener("change",teacherRender);
+$("closeTeacher").addEventListener("click",()=>$("teacherPanel").classList.add("hidden"));
+</script>
+</body>
+</html>
